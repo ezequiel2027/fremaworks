@@ -1,18 +1,23 @@
-/*ETAPA 1
- macrescentar useParams aqui.
-*/
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
+/* =========================================================
+   FRAMEWORKS 2 — DESAFIO 4 — ARQUIVO DO ALUNO
+
+   JÁ CONCLUÍDO:
+   ETAPA 1 — Importar useParams
+   ETAPA 2 — Criar o Link Editar com p._id
+   ETAPA 3 — Criar a rota /admin/produtos/editar/:id
+   ETAPA 4 — Recuperar o ID com useParams
+
+   PARA FAZER DURANTE A AULA:
+   ETAPA 5 — Criar os estados do formulário
+   ETAPA 6 — Criar useNavigate
+   ETAPA 7 — Buscar o produto com GET por ID
+   ETAPA 8 — Descomentar o formulário fornecido
+   ETAPA 9 — Criar o PUT para salvar alterações
+   ETAPA 10 — Atualizar setProdutos() com map() e voltar ao Admin
+   ========================================================= */
+
+import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-
-
-const produtos = [
-  { id: 1, nome: "Notebook Pro 15", categoria: "Informática", preco: 2499.90, estoque: 8, emoji: "💻" },
-  { id: 2, nome: "Mouse sem fio", categoria: "Informática", preco: 89.90, estoque: 25, emoji: "🖱️" },
-  { id: 3, nome: "Teclado mecânico", categoria: "Informática", preco: 199.90, estoque: 12, emoji: "⌨️" },
-  { id: 4, nome: "Fone Bluetooth", categoria: "Eletrônicos", preco: 149.90, estoque: 18, emoji: "🎧" },
-  { id: 5, nome: "Smartphone", categoria: "Eletrônicos", preco: 1299.90, estoque: 6, emoji: "📱" },
-  { id: 6, nome: "Monitor 24", categoria: "Informática", preco: 899.90, estoque: 10, emoji: "🖥️" }
-];
 
 function Header() {
   return (
@@ -47,7 +52,7 @@ function ProductCard({ produto }) {
   );
 }
 
-function Home({produtos}) { /*Primeira*/
+function Home({ produtos }) {
 
   return (
     <>
@@ -79,7 +84,7 @@ function Home({produtos}) { /*Primeira*/
   );
 }
 
-function Produtos({produtos}) { 
+function Produtos({ produtos }) { 
   return (
     <section className="section">
       <div className="section-heading">
@@ -159,80 +164,18 @@ function Carrinho() {
   );
 }
 
-function Admin({produtos}) {
-  /*Estado do produto Armazena dos dados do formulario*/
-  const [nome, setNome] = useState("");
-  const [descricao, setDescricao] = useState("");
-  const [categoria, setCategoria] = useState("");
-  const [preco, setPreco] = useState("");
-  const [estoque, setEstoque] = useState("");
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+function Admin({ produtos }) {
   return (
     <section className="section">
       <div className="admin-head">
         <div><span className="eyebrow">ADMINISTRAÇÃO</span><h1>Painel administrativo</h1></div>
-        {/*<button className="btn primary" onClick={() => alert("TODO - ALUNO: abrir formulário de produto")}>+ Novo produto</button>*/}
-        {/*<button className="btn primary" onClick={() => setMostrarFormulario(!mostrarFormulario)}> {mostrarFormulario ? "Fechar formulário" : "+ Novo produto"} </button>*/}
-        <Link to="/admin/produtos/novo"className="btn primary"
+
+<Link to="/admin/produtos/novo" className="btn primary"
 >
   + Novo produto
 </Link>      
       </div>    
-      {mostrarFormulario && (
-  <div className="form-card">
-    <h2>Cadastrar novo produto</h2>
-    <label>
-      Nome
-      <input
-        type="text"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-        placeholder="Nome do produto"
-      />
-    </label>
-    <label>
-      Descrição
-      <input
-        type="text"
-        value={descricao}
-        onChange={(e) => setDescricao(e.target.value)}
-        placeholder="Descrição do produto"
-      />
-    </label>
-    <label>
-      Categoria
-      <input
-        type="text"
-        value={categoria}
-        onChange={(e) => setCategoria(e.target.value)}
-        placeholder="Categoria"
-      />
-    </label>
-    <label>
-      Preço
-      <input
-        type="number"
-        step="0.01"
-        value={preco}
-        onChange={(e) => setPreco(e.target.value)}
-        placeholder="Preço"
-      />
-    </label>
-    <label>
-      Estoque
-      <input
-        type="number"
-        value={estoque}
-        onChange={(e) => setEstoque(e.target.value)}
-        placeholder="Quantidade em estoque"
-      />
-    </label>
-    <button className="btn primary">
-      Cadastrar produto
-    </button>
-  </div>
-)}   
-        <div className="stats">
+<div className="stats">
         <div><small>Produtos</small><strong>1.250</strong><span>↑ 12% este mês</span></div>
         <div><small>Pedidos</small><strong>137</strong><span>↑ 8% este mês</span></div>
         <div><small>Clientes</small><strong>482</strong><span>↑ 15% este mês</span></div>
@@ -254,14 +197,12 @@ function Admin({produtos}) {
                 O botão Excluir continua como está.
                 ===================================================== */}
             <span>
-              <button
+              <Link
                 className="mini"
-                onClick={() =>
-                  alert("Criar o Link de edição")
-                }
+                to={`/admin/produtos/editar/${p._id}`}
               >
                 Editar
-              </button>
+              </Link>
 
               <button
                 className="mini danger"
@@ -285,8 +226,8 @@ function Admin({produtos}) {
     </section>
   );
 }
-{/*Nova Lógica para abrir nova aba e acrecentar proditos*/}
-function NovoProduto({setProdutos}) {
+/* Nova lógica para abrir a tela de cadastro de produtos */
+function NovoProduto({ setProdutos }) {
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("");
@@ -328,8 +269,6 @@ setProdutos((produtosAtuais) => [
 ]);
 
 alert("Produto cadastrado com sucesso!");
-
-
 
 setNome("");
 setDescricao("");
@@ -428,7 +367,6 @@ navigate("/admin");
 }
    /*Final da lógica acrecentar produtos*/
 
-
    /*Rota editar Produtos*/   
      
     
@@ -443,119 +381,84 @@ navigate("/admin");
   
    ========================================================= */
 
+/* =========================================================
+   DESAFIO 4 — EDITAR PRODUTO
+   
+
+   ETAPAS 1 A 4 JÁ CONCLUÍDAS.
+   
+   ========================================================= */
 function EditarProduto({ setProdutos }) {
 
-  /* =======================================================
-     ETAPA 4 — PEGAR O ID DA URL
+  /* ==================== ETAPA 4 — CONCLUÍDA ====================
+     Recuperar o ID do produto que veio pela URL.
+  =============================================================== */
+  const { id } = useParams();
 
-     
+  /* ==================== ETAPA 5 ====================
+     CRIAR OS ESTADOS DO FORMULÁRIO
 
-     Objetivo:
-     recuperar o :id da rota usando useParams().
-     ======================================================= */
+     Crie useState para:
+     nome, descricao, categoria, preco e estoque.
+  ================================================== */
 
+  /* ==================== ETAPA 6 ====================
+     CRIAR A NAVEGAÇÃO
 
-  /* =======================================================
-     
+     Crie:
+     const navigate = useNavigate();
+  ================================================== */
 
-     useState para:
+  /* ==================== ETAPA 7 ====================
+     CARREGAR O PRODUTO PELO ID
 
-     nome
-     descricao
-     categoria
-     preco
-     estoque
+     Crie um useEffect que:
+     1. faça GET em /api/produtos/${id}
+     2. transforme a resposta em JSON
+     3. preencha os estados com setNome(), setDescricao(),
+        setCategoria(), setPreco() e setEstoque()
+  ================================================== */
 
-     
-     ======================================================= */
+  /* ==================== ETAPA 8 ====================
+     FORMULÁRIO DE EDIÇÃO
 
+     O formulário já está pronto abaixo.
+     Quando chegar nesta etapa, remova apenas o comentário
+     que envolve o formulário.
+  ================================================== */
 
-  /* =======================================================
-     ETAPA 5 — CRIAR A NAVEGAÇÃO
+  /* ==================== ETAPA 9 ====================
+     SALVAR AS ALTERAÇÕES
 
-     
-     usando useNavigate().
-
-     Cole o código aqui.
-     ======================================================= */
-
-
-  /* =======================================================
-     ETAPA 6 — CARREGAR O PRODUTO PELO ID
-
-     useEffect completo.
-
-     Fluxo:
-     URL com ID
-          ↓
-     GET /api/produtos/:id
-          ↓
-     API
-          ↓
-     produto
-          ↓
-     preencher os estados
-
-     
-     ======================================================= */
-
-
-  /* =======================================================
-     ETAPA 9 — SALVAR AS ALTERAÇÕES
-
+     Crie:
      async function salvarAlteracoes() { ... }
 
-     Ela fará:
-
+     A função deverá:
      1. montar produtoAtualizado
-     2. PUT /api/produtos/:id
-     3. JSON.stringify()
-     4. receber os dados atualizados
-     5. atualizar setProdutos() com map()
-     6. voltar para /admin
+     2. fazer PUT em /api/produtos/${id}
+     3. usar JSON.stringify(produtoAtualizado)
+     4. receber a resposta da API
+  ================================================== */
 
-     
-     ======================================================= */
+  /* ==================== ETAPA 10 ====================
+     ATUALIZAR O ESTADO DO REACT
 
-
-  /* =======================================================
-     ETAPA 8 — FORMULÁRIO JÁ FORNECIDO
-
-     
-
-     REMOVA o comentário
-     que envolve o bloco abaixo.
-
-     IMPORTANTE:
-     Antes de descomentar, as etapas anteriores precisam
-     estar prontas, pois o formulário usa:
-
-     nome
-     setNome
-     descricao
-     setDescricao
-     categoria
-     setCategoria
-     preco
-     setPreco
-     estoque
-     setEstoque
-     salvarAlteracoes
-     ======================================================= */
+     Dentro de salvarAlteracoes():
+     - use setProdutos() com map()
+     - substitua somente o produto cujo _id foi atualizado
+     - mostre a mensagem de sucesso
+     - volte para /admin
+  ================================================== */
 
   return (
     <section className="section">
       <div className="form-card">
-
-        <span className="eyebrow">
-          DESAFIO 4
-        </span>
-
+        <span className="eyebrow">DESAFIO 4</span>
         <h1>Editar produto</h1>
 
         <p>
-          O formulário completo já está fornecido neste arquivo.
-          Aguarde a orientação do professor para descomentá-lo.
+          Etapas 1 a 4 concluídas. Continue acompanhando a aula
+          para implementar a edição do produto.
         </p>
 
         <Link to="/admin" className="btn">
@@ -563,10 +466,10 @@ function EditarProduto({ setProdutos }) {
         </Link>
 
         {/*
-        ======================================================
-        FORMULÁRIO DE EDIÇÃO — JÁ PRONTO
-        DESCOMENTAR  ORIENTADO
-        ======================================================
+        ==========================================================
+        ETAPA 8 — FORMULÁRIO DE EDIÇÃO JÁ FORNECIDO
+        DESCOMENTAR SOMENTE QUANDO ORIENTADO
+        ==========================================================
 
         <label>
           Nome
@@ -615,11 +518,7 @@ function EditarProduto({ setProdutos }) {
         </label>
 
         <div className="form-actions">
-
-          <Link
-            to="/admin"
-            className="btn"
-          >
+          <Link to="/admin" className="btn">
             Cancelar
           </Link>
 
@@ -629,23 +528,21 @@ function EditarProduto({ setProdutos }) {
           >
             Salvar alterações
           </button>
-
         </div>
 
-        ======================================================
-        FIM DO FORMULÁRIO DE EDIÇÃO
-        ======================================================
+        ==========================================================
+        FIM DO FORMULÁRIO
+        ==========================================================
         */}
       </div>
     </section>
   );
 }
-
-/* FIM DO COMPONENTE EditarProduto */
+/* FIM DO DESAFIO 4 — ÁREA DO ALUNO */
 
      
    
-function App() { {/*acrescentar Esta Lógica*/}
+function App() {
   const [produtos, setProdutos] = useState([]);
   useEffect(() => {
     async function carregarProdutos() {
@@ -663,15 +560,15 @@ function App() { {/*acrescentar Esta Lógica*/}
       }
     }
     carregarProdutos();
-  }, []); {/*___________________Até Aqui__________________ */}
+  }, []);
   return (
     <>
       <Header />
 
       <main>
         <Routes>
-          <Route path="/" element={<Home produtos={produtos}/>}/>{/*acrescentar Esta Lógica*/}
-          {/*<Route path="/" element={<Home/>}/> Tirar este */}
+          <Route path="/" element={<Home produtos={produtos} />} />
+          
           <Route path="/produtos" element={<Produtos produtos={produtos}/>}/>
           <Route path="/produto/:id" element={<Produto/>}/>
           <Route path="/login" element={<Login/>}/>
@@ -683,18 +580,10 @@ function App() { {/*acrescentar Esta Lógica*/}
             element={<NovoProduto setProdutos={setProdutos} />}
           />
 
-          {/* =====================================================
-              ETAPA 3
-              Criar aqui a rota:
-
-              /admin/produtos/editar/:id
-
-              e como carregar:
-
-              <EditarProduto setProdutos={setProdutos} />
-
-              Cole a nova <Route> abaixo deste comentário.
-              ===================================================== */}
+          <Route
+            path="/admin/produtos/editar/:id"
+            element={<EditarProduto setProdutos={setProdutos} />}
+          />
         </Routes>
       </main>
 
