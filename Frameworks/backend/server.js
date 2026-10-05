@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
   res.json({
     projeto: "SobrouVendi",
     status: "API funcionando",
-    desafio: "TODO - ALUNO: conectar MongoDB e implementar regras."
+    desafio: "DESAFIO 4: implementar exclusão de produtos com DELETE."
   });
 });
 
@@ -101,6 +101,28 @@ app.put("/api/produtos/:id", async (req, res) => {
 });
 
 
+/* =========================================================
+   DESAFIO 4 — DELETE DE PRODUTOS — AULAS 3 E 4
+
+   OBJETIVO:
+   Implementar no BACKEND a exclusão de um produto do MongoDB.
+
+   O aluno deverá utilizar:
+   - app.delete()
+   - rota /api/produtos/:id
+   - req.params
+   - Product.findByIdAndDelete()
+   - resposta 404 quando o produto não existir
+   - resposta JSON quando a exclusão for concluída
+
+   IMPORTANTE:
+   Nesta etapa NÃO implemente o botão Excluir no React.
+   O frontend com fetch DELETE será trabalhado nas Aulas 5 e 6.
+
+   IMPLEMENTE A ROTA DELETE AQUI:
+========================================================= */
+
+
 app.post("/api/auth/login", async (req, res) => {
   // TODO - ALUNO: buscar usuário, comparar senha com bcrypt e emitir JWT.
   res.status(501).json({ erro: "Login ainda não implementado pelo aluno." });
@@ -120,4 +142,3 @@ app.listen(PORT, () => {
   console.log(`SobrouVendi API: http://localhost:${PORT}`);
 });
 
-// TODO - ALUNO: conectar MongoDB com mongoose.connect(process.env.MONGODB_URI).
