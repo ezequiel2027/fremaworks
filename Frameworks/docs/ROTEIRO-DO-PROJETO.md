@@ -14,15 +14,15 @@
 
 ## O aluno implementa
 ### Etapa 1
-- [ ] Conectar frontend à API
+- [x] Conectar frontend à API
 
 ### Etapa 2
-- [ ] CRUD persistente de produtos
-- [ ] Validações
+- [x] CRUD persistente de produtos
+- [x] Validações
 
 ### Etapa 3
-- [ ] MongoDB/Mongoose
-- [ ] Busca
+- [x] MongoDB/Mongoose
+- [x] Busca
 - [ ] Filtros
 - [ ] Paginação
 
