@@ -1,37 +1,66 @@
-# SobrouVendi — Projeto-base para o aluno
+# Meu Site Vendas — Desafio 4: DELETE no Backend
 
-## Proposta
-E-commerce educacional com interface pronta, produtos de demonstração, login, painel administrativo e estrutura de API.
+## Aulas 3 e 4
 
-### O que já está pronto
-- Interface completa em React
-- Home, catálogo, produto, carrinho, login e cadastro
-- Painel administrativo
-- Produtos de demonstração
-- Estrutura Express
-- Estrutura MongoDB/Mongoose
-- Seed de produtos e usuários
-- Rotas organizadas
-- Componentes reutilizáveis
+Este projeto dá continuidade ao site de vendas desenvolvido nas aulas anteriores.
 
-### O que o aluno deve implementar
-Os arquivos contêm marcações `TODO - ALUNO`.
+## O que já está funcionando
+- React + Vite no frontend
+- Express no backend
+- conexão com MongoDB usando Mongoose
+- GET `/api/produtos` — listar produtos
+- POST `/api/produtos` — cadastrar produtos
+- GET `/api/produtos/:id` — buscar produto por ID
+- PUT `/api/produtos/:id` — atualizar produto
 
-1. Persistência real no MongoDB
-2. CRUD completo de produtos
-3. Login/autenticação real
-4. Controle de acesso de administrador
-5. Carrinho persistente
-6. Criação de pedidos
-7. Atualização de estoque
-8. Busca, filtros e paginação
-9. Validações
-10. Tratamento de erros
-11. Testes
-12. Hospedagem
+## Desafio desta aula
+Implementar **somente no backend** a exclusão de produtos.
 
-## Tecnologias
-- React + Vite
-- Node.js + Express
-- MongoDB + Mongoose
-- JWT (estrutura preparada)
+No arquivo `backend/server.js`, procure por:
+
+`DESAFIO 4 — DELETE DE PRODUTOS — AULAS 3 E 4`
+
+Você deverá construir a rota `DELETE /api/produtos/:id` utilizando os conceitos estudados em aula.
+
+### Conceitos que serão utilizados
+- `app.delete()`
+- `req.params`
+- ID do produto
+- `Product.findByIdAndDelete()`
+- status 404
+- resposta JSON
+
+## Importante
+O botão **Excluir** do painel administrativo ainda mostra uma mensagem de TODO. **Não implemente o frontend nesta etapa.** O botão será conectado à API nas Aulas 5 e 6.
+
+## Instalação
+Abra dois terminais.
+
+### Terminal 1 — Backend
+```powershell
+cd backend
+npm install
+npm run dev
+```
+
+### Terminal 2 — Frontend
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+## Teste do backend
+Antes de iniciar o desafio, confirme que a listagem funciona acessando:
+
+`http://localhost:3000/api/produtos`
+
+Depois de implementar o DELETE, teste a exclusão utilizando uma ferramenta capaz de enviar requisições HTTP DELETE. Ao consultar novamente a listagem, o produto excluído não deverá aparecer.
+
+## Resultado esperado ao final
+CRUD no backend:
+
+- Create → POST ✔
+- Read → GET ✔
+- Update → PUT ✔
+- Delete → DELETE — **você implementará nesta aula**
