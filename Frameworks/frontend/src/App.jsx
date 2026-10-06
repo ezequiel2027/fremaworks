@@ -1,24 +1,16 @@
-/* =========================================================
-   FRAMEWORKS 2 — DESAFIO 4 COMPLETO
-   Edição de Produtos (UPDATE)
-
-   ETAPA 1  - Importar useParams
-   ETAPA 2  - Criar o Link Editar com p._id
-   ETAPA 3  - Criar a rota /admin/produtos/editar/:id
-   ETAPA 4  - Recuperar o ID com useParams
-   ETAPA 5  - Criar os estados do formulário
-   ETAPA 6  - Criar a navegação com useNavigate
-   ETAPA 7  - Buscar produto com GET por ID
-   ETAPA 8  - Atualizar produto com PUT
-   ETAPA 9  - Atualizar o estado do React com map()
-   ETAPA 10 - Formulário de edição
-   ========================================================= */
-
-/* ==================== DESAFIO 4 — ETAPA 1 ====================
-   Importar useParams para recuperar o ID da URL.
-================================================================ */
-import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom";
+/*import { Link, Route, Routes, useNavigate } from "react-router-dom";*/
+import { Link, Route, Routes, useNavigate, useParams} from "react-router-dom";
 import React, { useEffect, useState } from "react";
+
+
+const produtos = [
+  { id: 1, nome: "Notebook Pro 15", categoria: "Informática", preco: 2499.90, estoque: 8, emoji: "💻" },
+  { id: 2, nome: "Mouse sem fio", categoria: "Informática", preco: 89.90, estoque: 25, emoji: "🖱️" },
+  { id: 3, nome: "Teclado mecânico", categoria: "Informática", preco: 199.90, estoque: 12, emoji: "⌨️" },
+  { id: 4, nome: "Fone Bluetooth", categoria: "Eletrônicos", preco: 149.90, estoque: 18, emoji: "🎧" },
+  { id: 5, nome: "Smartphone", categoria: "Eletrônicos", preco: 1299.90, estoque: 6, emoji: "📱" },
+  { id: 6, nome: "Monitor 24", categoria: "Informática", preco: 899.90, estoque: 10, emoji: "🖥️" }
+];
 
 function Header() {
   return (
@@ -53,7 +45,7 @@ function ProductCard({ produto }) {
   );
 }
 
-function Home({ produtos }) {
+function Home({produtos}) { /*Primeira*/
 
   return (
     <>
@@ -73,7 +65,7 @@ function Home({ produtos }) {
           <Link to="/produtos">Ver todos →</Link>
         </div>
         <div className="product-grid">
-          {produtos.slice(0, 4).map(p => <ProductCard key={p._id || p.id} produto={p} />)}
+          {produtos.slice(0, 4).map(p => <ProductCard key={p.id} produto={p}/>)}
         </div>
       </section>
 
@@ -85,7 +77,7 @@ function Home({ produtos }) {
   );
 }
 
-function Produtos({ produtos }) { 
+function Produtos({produtos}) { 
   return (
     <section className="section">
       <div className="section-heading">
@@ -97,7 +89,7 @@ function Produtos({ produtos }) {
         <select><option>Ordenar por</option><option>Menor preço</option><option>Maior preço</option></select>
       </div>
       <div className="product-grid">
-        {produtos.map(p => <ProductCard key={p._id || p.id} produto={p} />)}
+        {produtos.map(p => <ProductCard key={p.id} produto={p}/>)}
       </div>
       <div className="pagination">← Anterior &nbsp; <b>1</b> 2 3 4 &nbsp; Próxima →</div>
     </section>
@@ -165,17 +157,81 @@ function Carrinho() {
   );
 }
 
-function Admin({ produtos }) {
+function Admin({produtos}) {
+  const [nome, setNome] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [preco, setPreco] = useState("");
+  const [estoque, setEstoque] = useState("");
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
   return (
     <section className="section">
       <div className="admin-head">
         <div><span className="eyebrow">ADMINISTRAÇÃO</span><h1>Painel administrativo</h1></div>
-
-<Link to="/admin/produtos/novo" className="btn primary">
-          + Novo produto
-        </Link>      
+        {/*<button className="btn primary" onClick={() => alert("TODO - ALUNO: abrir formulário de produto")}>+ Novo produto</button>*/}
+        {/*<button className="btn primary" onClick={() => setMostrarFormulario(!mostrarFormulario)}> {mostrarFormulario ? "Fechar formulário" : "+ Novo produto"} </button>*/}
+        <Link to="/admin/produtos/novo"className="btn primary"
+>
+  + Novo produto
+</Link>      
       </div>   
-<div className="stats">
+            
+      {mostrarFormulario && (
+  <div className="form-card">
+    <h2>Cadastrar novo produto</h2>
+    <label>
+      Nome
+      <input
+        type="text"
+        value={nome}
+        onChange={(e) => setNome(e.target.value)}
+        placeholder="Nome do produto"
+      />
+    </label>
+    <label>
+      Descrição
+      <input
+        type="text"
+        value={descricao}
+        onChange={(e) => setDescricao(e.target.value)}
+        placeholder="Descrição do produto"
+      />
+    </label>
+    <label>
+      Categoria
+      <input
+        type="text"
+        value={categoria}
+        onChange={(e) => setCategoria(e.target.value)}
+        placeholder="Categoria"
+      />
+    </label>
+    <label>
+      Preço
+      <input
+        type="number"
+        step="0.01"
+        value={preco}
+        onChange={(e) => setPreco(e.target.value)}
+        placeholder="Preço"
+      />
+    </label>
+    <label>
+      Estoque
+      <input
+        type="number"
+        value={estoque}
+        onChange={(e) => setEstoque(e.target.value)}
+        placeholder="Quantidade em estoque"
+      />
+    </label>
+    <button className="btn primary">
+      Cadastrar produto
+    </button>
+  </div>
+)}     
+
+      <div className="stats">
         <div><small>Produtos</small><strong>1.250</strong><span>↑ 12% este mês</span></div>
         <div><small>Pedidos</small><strong>137</strong><span>↑ 8% este mês</span></div>
         <div><small>Clientes</small><strong>482</strong><span>↑ 15% este mês</span></div>
@@ -189,24 +245,20 @@ function Admin({ produtos }) {
             <span>{p.emoji} <b>{p.nome}</b></span>
             <span>R$ {p.preco.toFixed(2).replace(".", ",")}</span>
             <span>{p.estoque}</span>
-            {/* ==================== DESAFIO 4 — ETAPA 2 ====================
-                O botão Editar envia o _id do produto para a URL.
-            =============================================================== */}
-            <span>
+           <span>
               <Link
                 className="mini"
                 to={`/admin/produtos/editar/${p._id}`}
-              >
-                Editar
-              </Link>
-
-              <button
-                className="mini danger"
-                onClick={() => alert("TODO - próximo desafio: excluir produto")}
-              >
+                >
+                 Editar
+                </Link>
+                
+                <button className="mini danger"
+                onClick={() => alert("DESAFIO 4: implemente a exclusão do produto")}
+                 >
                 Excluir
-              </button>
-            </span>
+                </button>
+                </span>
           </div>
         ))}
       </div>
@@ -221,7 +273,8 @@ function Admin({ produtos }) {
     </section>
   );
 }
-function NovoProduto({ setProdutos }) {
+{/*Nova Lógica para abrir nova aba e acrecentar proditos*/}
+function NovoProduto({setProdutos}) {
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("");
@@ -230,7 +283,6 @@ function NovoProduto({ setProdutos }) {
   const navigate = useNavigate();
 
   async function cadastrarProduto() {
-  try {
     const novoProduto = {
       nome,
       descricao,
@@ -239,37 +291,15 @@ function NovoProduto({ setProdutos }) {
       estoque: Number(estoque),
       ativo: true
     };
-    const resposta = await fetch(
-      "http://localhost:3000/api/produtos",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(novoProduto)
-      }
-    );
-    const dados = await resposta.json();
-    if (!resposta.ok) {
-  alert("Erro ao cadastrar produto.");
-  return;
-}
-setProdutos((produtosAtuais) => [
-  ...produtosAtuais,
-  dados
-]);
-alert("Produto cadastrado com sucesso!");
-setNome("");
-setDescricao("");
-setCategoria("");
-setPreco("");
-setEstoque("");
-navigate("/admin");
-    console.log("Resposta da API:", dados);
-  } catch (erro) {
-    console.error("Erro ao cadastrar produto:", erro);
+
+    // QUESTÃO 2 — 3,0 pontos
+    // COMPLETE AQUI: envie novoProduto para a API usando POST.
+    // URL: http://localhost:3000/api/produtos
+    // Inclua Content-Type application/json e JSON.stringify(novoProduto).
+    // Depois, converta a resposta para JSON, atualize setProdutos
+    // e navegue para /admin após o cadastro.
+    console.log("QUESTÃO 2: produto preparado, mas ainda não enviado.", novoProduto);
   }
-}
   return (
     <section className="section">
       <div className="form-card">
@@ -339,125 +369,70 @@ navigate("/admin");
     </section>
   );
 }
-   /*ETAPA 4*/
+   /*Final da lógica acrecentar produtos*/
+
    /*Rota editar Produtos*/
-/* =========================================================
-   DESAFIO 4 — EDITAR PRODUTO
-   Implementação completa, organizada por etapas.
-   ========================================================= */
-function EditarProduto({ setProdutos }) {
-
-  /* ==================== ETAPA 4 ====================
-     Recuperar o ID do produto que veio pela URL.
-  ================================================== */
-  const { id } = useParams();
-
-  /* ==================== ETAPA 5 ====================
-     Estados que armazenam os valores do formulário.
-  ================================================== */
+function EditarProduto({setProdutos}){
+  // QUESTÃO 3 — 2,0 pontos
+  // COMPLETE AQUI: obtenha o parâmetro :id da URL usando useParams().
+  const id = "";
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [categoria, setCategoria] = useState("");
   const [preco, setPreco] = useState("");
   const [estoque, setEstoque] = useState("");
-
-  /* ==================== ETAPA 6 ====================
-     Navegação usada após salvar ou cancelar.
-  ================================================== */
   const navigate = useNavigate();
 
-  /* ==================== ETAPA 7 ====================
-     Buscar o produto pelo ID e preencher o formulário.
-  ================================================== */
   useEffect(() => {
     async function carregarProduto() {
       try {
-        const resposta = await fetch(
-          `http://localhost:3000/api/produtos/${id}`
-        );
-
-        if (!resposta.ok) {
-          alert("Produto não encontrado.");
-          navigate("/admin");
-          return;
-        }
-
-        const produto = await resposta.json();
-
+        // COMPLETE AQUI (continuação da QUESTÃO 3):
+        // faça um GET para http://localhost:3000/api/produtos/:id
+        // e converta a resposta para JSON.
+        // Substitua as duas linhas temporárias abaixo pela solução.
+        const resposta = { ok: false };
+        const produto = {};
+        console.log("Produto encontrado:", produto);
         setNome(produto.nome);
-        setDescricao(produto.descricao || "");
+        setDescricao(produto.descricao);
         setCategoria(produto.categoria);
         setPreco(produto.preco);
         setEstoque(produto.estoque);
-
       } catch (erro) {
-        console.error("Erro ao carregar produto:", erro);
-        alert("Erro ao conectar com a API.");
+        console.error(
+          "Erro ao carregar produto:",
+          erro
+        );
       }
     }
-
     carregarProduto();
-  }, [id, navigate]);
+  }, [id]);
 
-  /* ==================== ETAPA 8 ====================
-     Enviar as alterações para a API usando PUT.
-  ================================================== */
   async function salvarAlteracoes() {
-    try {
-      const produtoAtualizado = {
-        nome,
-        descricao,
-        categoria,
-        preco: Number(preco),
-        estoque: Number(estoque),
-        ativo: true
-      };
+    const produtoAtualizado = {
+      nome,
+      descricao,
+      categoria,
+      preco: Number(preco),
+      estoque: Number(estoque),
+      ativo: true
+    };
 
-      const resposta = await fetch(
-        `http://localhost:3000/api/produtos/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(produtoAtualizado)
-        }
-      );
-
-      const dados = await resposta.json();
-
-      if (!resposta.ok) {
-        alert(dados.erro || "Erro ao atualizar produto.");
-        return;
-      }
-
-      /* ==================== ETAPA 9 ====================
-         Atualizar a lista que está no estado do React.
-      ================================================== */
-      setProdutos((produtosAtuais) =>
-        produtosAtuais.map((produto) =>
-          produto._id === dados._id ? dados : produto
-        )
-      );
-
-      alert("Produto atualizado com sucesso!");
-      navigate("/admin");
-
-    } catch (erro) {
-      console.error("Erro ao atualizar produto:", erro);
-      alert("Erro ao conectar com a API.");
-    }
+    // QUESTÃO 4 — 2,0 pontos
+    // COMPLETE AQUI: envie produtoAtualizado para
+    // http://localhost:3000/api/produtos/:id usando PUT.
+    // Use Content-Type application/json e JSON.stringify(produtoAtualizado).
+    // Após receber os dados atualizados, sincronize o estado com setProdutos
+    // e retorne para /admin usando navigate.
+    console.log("QUESTÃO 4: alterações preparadas, mas ainda não enviadas.", produtoAtualizado);
   }
-
-  /* ==================== ETAPA 10 ====================
-     Formulário de edição.
-  ================================================== */
   return (
     <section className="section">
       <div className="form-card">
-        <span className="eyebrow">ADMINISTRAÇÃO</span>
+        <span className="eyebrow">
+          ADMINISTRAÇÃO
+        </span>
         <h1>Editar produto</h1>
-
         <label>
           Nome
           <input
@@ -466,7 +441,6 @@ function EditarProduto({ setProdutos }) {
             onChange={(e) => setNome(e.target.value)}
           />
         </label>
-
         <label>
           Descrição
           <input
@@ -475,7 +449,6 @@ function EditarProduto({ setProdutos }) {
             onChange={(e) => setDescricao(e.target.value)}
           />
         </label>
-
         <label>
           Categoria
           <input
@@ -484,7 +457,6 @@ function EditarProduto({ setProdutos }) {
             onChange={(e) => setCategoria(e.target.value)}
           />
         </label>
-
         <label>
           Preço
           <input
@@ -494,7 +466,6 @@ function EditarProduto({ setProdutos }) {
             onChange={(e) => setPreco(e.target.value)}
           />
         </label>
-
         <label>
           Estoque
           <input
@@ -503,40 +474,35 @@ function EditarProduto({ setProdutos }) {
             onChange={(e) => setEstoque(e.target.value)}
           />
         </label>
-
         <div className="form-actions">
-          <button
+          <Link
+            to="/admin"
             className="btn"
-            type="button"
-            onClick={() => navigate("/admin")}
           >
             Cancelar
-          </button>
-
+          </Link>
           <button
-            className="btn primary"
-            type="button"
-            onClick={salvarAlteracoes}
-          >
-            Salvar alterações
-          </button>
+           className="btn primary"
+           onClick={salvarAlteracoes}
+           >               
+                   Salvar Alteração
+           </button>
         </div>
       </div>
     </section>
   );
-}
-/* FIM DO DESAFIO 4 — EDITAR PRODUTO */
+}/*Editar Produtos*/
 
-function App() {
+function App() { {/*acrescentar Esta Lógica*/}
   const [produtos, setProdutos] = useState([]);
   useEffect(() => {
     async function carregarProdutos() {
       try {
-        const resposta = await fetch(
-          "http://localhost:3000/api/produtos"
-        );
-        const dados = await resposta.json();
-        setProdutos(dados);
+        // QUESTÃO 1 — 2,0 pontos
+        // COMPLETE AQUI: faça um GET em http://localhost:3000/api/produtos,
+        // converta a resposta para JSON e atualize o estado produtos.
+        // Dica: use fetch, resposta.json() e setProdutos.
+        console.log("QUESTÃO 1: carregamento de produtos ainda não implementado.");
       } catch (erro) {
         console.error(
           "Erro ao carregar produtos:",
@@ -545,32 +511,25 @@ function App() {
       }
     }
     carregarProdutos();
-  }, []);
+  }, []); {/*___________________Até Aqui__________________ */}
   return (
     <>
       <Header />
 
       <main>
         <Routes>
-          <Route path="/" element={<Home produtos={produtos} />} />
+          <Route path="/" element={<Home produtos={produtos}/>}/>{/*acrescentar Esta Lógica*/}
+          {/*<Route path="/" element={<Home/>}/> Tirar este */}
           <Route path="/produtos" element={<Produtos produtos={produtos}/>}/>
           <Route path="/produto/:id" element={<Produto/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/cadastro" element={<Cadastro/>}/>
           <Route path="/carrinho" element={<Carrinho/>}/>
           <Route path="/admin" element={<Admin produtos={produtos}/>}/>
-          <Route
-            path="/admin/produtos/novo"
-            element={<NovoProduto setProdutos={setProdutos} />}
-          />
-
-          {/* ==================== DESAFIO 4 — ETAPA 3 ====================
-              Criar a rota dinâmica de edição.
-          =============================================================== */}
-          <Route
-            path="/admin/produtos/editar/:id"
-            element={<EditarProduto setProdutos={setProdutos} />}
-          />
+          <Route path="/admin/produtos/novo"element={<NovoProduto setProdutos={setProdutos} />}/>
+          {/*Rota tela de Editar produtos*/}
+          <Route path="/admin/produtos/editar/:id"element={<EditarProduto setProdutos={setProdutos} />}
+/>
         </Routes>
       </main>
 
