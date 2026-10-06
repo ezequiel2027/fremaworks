@@ -24,9 +24,17 @@ app.get("/", (req, res) => {
   res.json({
     projeto: "SobrouVendi",
     status: "API funcionando",
-    desafio: "DESAFIO 4: implementar exclusão de produtos com DELETE."
+    desafio: "TODO - ALUNO: conectar MongoDB e implementar regras."
   });
 });
+
+/*app.get("/api/produtos", async (req, res) => {
+  // TODO - ALUNO: trocar resposta temporária por consulta no MongoDB.
+  res.json([
+    { id: 1, nome: "Notebook Pro 15", categoria: "Informática", preco: 2499.90, estoque: 8 },
+    { id: 2, nome: "Mouse sem fio", categoria: "Informática", preco: 89.90, estoque: 25 }
+  ]);
+});*/
 
 app.get("/api/produtos", async (req, res) => {
   try {
@@ -101,26 +109,19 @@ app.put("/api/produtos/:id", async (req, res) => {
 });
 
 
-/* =========================================================
-   DESAFIO 4 — DELETE DE PRODUTOS — AULAS 3 E 4
 
-   OBJETIVO:
-   Implementar no BACKEND a exclusão de um produto do MongoDB.
+/* ============================================================
+   DESAFIO 4 — DELETE DE PRODUTOS
+   TODO - ALUNO:
+   1. Criar a rota DELETE /api/produtos/:id
+   2. Recuperar o id com req.params
+   3. Excluir com Product.findByIdAndDelete(id)
+   4. Retornar 404 se o produto não existir
+   5. Retornar uma mensagem de sucesso
+   ============================================================ */
 
-   O aluno deverá utilizar:
-   - app.delete()
-   - rota /api/produtos/:id
-   - req.params
-   - Product.findByIdAndDelete()
-   - resposta 404 quando o produto não existir
-   - resposta JSON quando a exclusão for concluída
+// ESCREVA A ROTA DELETE AQUI
 
-   IMPORTANTE:
-   Nesta etapa NÃO implemente o botão Excluir no React.
-   O frontend com fetch DELETE será trabalhado nas Aulas 5 e 6.
-
-   IMPLEMENTE A ROTA DELETE AQUI:
-========================================================= */
 
 
 app.post("/api/auth/login", async (req, res) => {
@@ -142,3 +143,4 @@ app.listen(PORT, () => {
   console.log(`SobrouVendi API: http://localhost:${PORT}`);
 });
 
+// TODO - ALUNO: conectar MongoDB com mongoose.connect(process.env.MONGODB_URI).
