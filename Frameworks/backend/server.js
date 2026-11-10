@@ -3,8 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Product from "./models/Product.js";
-// ETAPA 1 — Importe o modelo User e a biblioteca bcryptjs.
-// TODO ETAPA 1: escreva os dois imports aqui.
 
 dotenv.config();
 const app = express();
@@ -122,17 +120,8 @@ app.post("/api/auth/login", async (req, res) => {
   res.status(501).json({ erro: "Login ainda não implementado pelo aluno." });
 });
 
-// ETAPA 2 — Criar a rota POST /api/auth/register.
-// ETAPA 3 — Ler e validar nome, email e senha; impedir e-mail duplicado.
-// ETAPA 4 — Gerar hash da senha com bcryptjs e salvar usuário como cliente.
-// ETAPA 5 — Responder com status 201 e dados públicos, SEM devolver senha/hash.
-// TODO ETAPAS 2 A 5: substitua a rota provisória abaixo pela sua implementação.
 app.post("/api/auth/register", async (req, res) => {
-  // ETAPA 2 — Estrutura da rota: implemente o tratamento da requisição.
-  // ETAPA 3 — Validação e busca de e-mail existente.
-  // ETAPA 4 — Hash e criação do usuário no MongoDB.
-  // ETAPA 5 — Resposta de sucesso e tratamento de erros.
-  res.status(501).json({ erro: "Cadastro pendente: ETAPAS 2 a 5." });
+  res.status(501).json({ erro: "Cadastro ainda não implementado pelo aluno." });
 });
 
 app.post("/api/pedidos", async (req, res) => {
