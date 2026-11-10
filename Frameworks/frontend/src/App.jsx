@@ -66,31 +66,22 @@ function Home({ produtos }) {
 }
 
 function Produtos({ produtos }) {
-  // FILTRO — ETAPA 1:
-  // O estado "busca" guarda o texto digitado pelo usuário.
   const [busca, setBusca] = useState("");
 
-  // FILTRO — ETAPA 2:
-  // O estado "categoria" guarda qual botão de categoria foi selecionado.
   const [categoria, setCategoria] = useState("Todos");
 
-  // FILTRO — ETAPA 3:
-  // O estado "ordenacao" define como os produtos serão ordenados.
   const [ordenacao, setOrdenacao] = useState("");
 
   // ============================================================
-  // PAGINAÇÃO — AULAS 15 E 16
-  // As etapas abaixo estão COMENTADAS de propósito.
-  // Durante a aula, descomente UMA ETAPA POR VEZ e explique.
+  // ATIVIDADE DO ALUNO — PAGINAÇÃO EM REACT
+  // Não altere os filtros existentes antes de concluir as etapas.
+  // ETAPA 1 — Crie um estado para guardar a página atual (início: 1).
+  //            Defina também uma constante com 6 produtos por página.
+  //            TODO ALUNO: escreva as duas declarações abaixo.
+  //
+  //
   // ============================================================
 
-  // PAGINAÇÃO — ETAPA 1: estado da página e quantidade por página
-  const [paginaAtual, setPaginaAtual] = useState(1);
-  // const produtosPorPagina = 6;
-
-  // FILTRO — ETAPA 4:
-  // filter() percorre todos os produtos e mantém somente os que
-  // atendem ao texto pesquisado e à categoria escolhida.
   const produtosFiltrados = produtos.filter((produto) => {
     const textoBusca = busca.toLowerCase();
 
@@ -104,9 +95,6 @@ function Produtos({ produtos }) {
     return correspondeBusca && correspondeCategoria;
   });
 
-  // FILTRO — ETAPA 5:
-  // [...produtosFiltrados] cria uma cópia antes de usar sort().
-  // Assim não alteramos diretamente o array original do estado.
   const produtosExibidos = [...produtosFiltrados].sort((a, b) => {
     if (ordenacao === "menor-preco") {
       return a.preco - b.preco;
@@ -119,18 +107,20 @@ function Produtos({ produtos }) {
     return 0;
   });
 
-  // PAGINAÇÃO — ETAPA 2: calcular os índices e recortar o array
-  // const indiceUltimoProduto = paginaAtual * produtosPorPagina;
-  // const indicePrimeiroProduto = indiceUltimoProduto - produtosPorPagina;
-  // const produtosDaPagina = produtosExibidos.slice(
-  //   indicePrimeiroProduto,
-  //   indiceUltimoProduto
-  // );
+  // ETAPA 2 — Calcule o índice do último item e o índice do primeiro.
+  //            Use a página atual e a quantidade por página.
+  //            Depois recorte produtosExibidos com slice().
+  //            TODO ALUNO: escreva seu código abaixo.
+  //
+  //
+  //
 
-  // PAGINAÇÃO — ETAPA 4: calcular quantas páginas serão necessárias
-  // const totalPaginas = Math.ceil(
-  //   produtosExibidos.length / produtosPorPagina
-  // );
+  // ETAPA 4 — Calcule o total de páginas a partir de
+  //            produtosExibidos.length e produtosPorPagina.
+  //            Pense em como arredondar o resultado para cima.
+  //            TODO ALUNO: escreva seu código abaixo.
+  //
+  //
 
   return (
     <section className="section">
@@ -140,51 +130,45 @@ function Produtos({ produtos }) {
           <h2>Todos os produtos</h2>
         </div>
 
-        {/* FILTRO — ETAPA 6:
-            onChange captura cada alteração no campo e atualiza "busca". */}
+        {/* ETAPA 7 — TODO ALUNO: ao mudar a busca, volte à página 1.
+            Modifique o onChange abaixo, preservando setBusca. */}
         <input
           className="search"
           placeholder="🔎 Buscar produto..."
           value={busca}
           onChange={(e) => setBusca(e.target.value)}
-          // PAGINAÇÃO — ETAPA 7 (quando chegar nela, substitua a linha acima por):
-          // onChange={(e) => { setBusca(e.target.value); setPaginaAtual(1); }}
         />
       </div>
 
       <div className="filters">
-        {/* FILTRO — ETAPA 7:
-            Os botões alteram a categoria usada pelo filter(). */}
+        {/* ETAPA 7 — TODO ALUNO: ao trocar a categoria, volte também à página 1. */}
         <button
           className={categoria === "Todos" ? "active" : ""}
           onClick={() => setCategoria("Todos")}
-          // ETAPA 7: depois, troque por uma função que também execute setPaginaAtual(1).
         >
           Todos
         </button>
 
+        {/* ETAPA 7 — TODO ALUNO: ao trocar a categoria, volte também à página 1. */}
         <button
           className={categoria === "Informática" ? "active" : ""}
           onClick={() => setCategoria("Informática")}
-          // ETAPA 7: depois, troque por uma função que também execute setPaginaAtual(1).
         >
           Informática
         </button>
 
+        {/* ETAPA 7 — TODO ALUNO: ao trocar a categoria, volte também à página 1. */}
         <button
           className={categoria === "Eletrônicos" ? "active" : ""}
           onClick={() => setCategoria("Eletrônicos")}
-          // ETAPA 7: depois, troque por uma função que também execute setPaginaAtual(1).
         >
           Eletrônicos
         </button>
 
-        {/* FILTRO — ETAPA 8:
-            O select controla a ordenação por preço. */}
+        {/* ETAPA 7 — TODO ALUNO: ao ordenar, volte também à página 1. */}
         <select
           value={ordenacao}
           onChange={(e) => setOrdenacao(e.target.value)}
-          // ETAPA 7: depois, troque por uma função que também execute setPaginaAtual(1).
         >
           <option value="">Ordenar por</option>
           <option value="menor-preco">Menor preço</option>
@@ -197,8 +181,6 @@ function Produtos({ produtos }) {
       </p>
 
       <div className="product-grid">
-        {/* FILTRO — ETAPA 9:
-            A tela renderiza o novo array, e não mais "produtos" diretamente. */}
         {produtosExibidos.map((produto) => (
           <ProductCard
             key={produto._id || produto.id}
@@ -206,46 +188,29 @@ function Produtos({ produtos }) {
           />
         ))}
 
-        {/* PAGINAÇÃO — ETAPA 3:
-            Quando chegar nesta etapa, comente o map acima e descomente o bloco abaixo.
-
-        {produtosDaPagina.map((produto) => (
-          <ProductCard
-            key={produto._id || produto.id}
-            produto={produto}
-          />
-        ))}
-        */}
+        {/* ETAPA 3 — TODO ALUNO:
+            Quando sua variável da Etapa 2 existir, substitua o array usado
+            no map() acima pelo array que representa somente a página atual.
+            Antes disso, mantenha o map original para a tela funcionar. */}
       </div>
 
-      {/* PAGINAÇÃO — ETAPA 5: botões Anterior e Próxima
-          Descomente este bloco quando chegar à Etapa 5.
-
-      <div className="pagination">
-        <button onClick={() => setPaginaAtual(paginaAtual - 1)}>
-          ← Anterior
-        </button>
-
-        <span>
-          Página {paginaAtual} de {totalPaginas}
-        </span>
-
-        <button onClick={() => setPaginaAtual(paginaAtual + 1)}>
-          Próxima →
-        </button>
-      </div>
+      {/* ETAPA 5 — TODO ALUNO:
+          Aqui, crie a interface de paginação com:
+          - um botão "Anterior" que retroceda uma página;
+          - um texto "Página atual de total de páginas";
+          - um botão "Próxima" que avance uma página.
+          Use a classe CSS "pagination", já presente no projeto.
+          Só implemente quando as etapas 1 a 4 estiverem funcionando.
       */}
 
-      {/* PAGINAÇÃO — ETAPA 6:
-          Depois da Etapa 5 funcionar, acrescente:
-          disabled={paginaAtual === 1} no botão Anterior
-          disabled={paginaAtual === totalPaginas} no botão Próxima.
+      {/* ETAPA 6 — TODO ALUNO:
+          Desabilite "Anterior" na primeira página.
+          Desabilite "Próxima" na última página.
       */}
 
-      {/* PAGINAÇÃO — ETAPA 8:
-          Na versão final, envolva a paginação com:
-          produtosExibidos.length > 0 && (...)
-          Assim os botões somem quando nenhum produto for encontrado.
+      {/* ETAPA 8 — TODO ALUNO:
+          Mostre os controles somente quando houver resultados.
+          Teste a busca que retorna zero produtos.
       */}
 
       {produtosExibidos.length === 0 && (
