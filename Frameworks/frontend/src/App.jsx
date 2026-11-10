@@ -66,16 +66,31 @@ function Home({ produtos }) {
 }
 
 function Produtos({ produtos }) {
+  // FILTRO — ETAPA 1:
+  // O estado "busca" guarda o texto digitado pelo usuário.
   const [busca, setBusca] = useState("");
 
+  // FILTRO — ETAPA 2:
+  // O estado "categoria" guarda qual botão de categoria foi selecionado.
   const [categoria, setCategoria] = useState("Todos");
 
+  // FILTRO — ETAPA 3:
+  // O estado "ordenacao" define como os produtos serão ordenados.
   const [ordenacao, setOrdenacao] = useState("");
 
-  // Paginação concluída na aula anterior.
-  const [paginaAtual, setPaginaAtual] = useState(1);
-  const produtosPorPagina = 6;
+  // ============================================================
+  // PAGINAÇÃO — AULAS 15 E 16
+  // As etapas abaixo estão COMENTADAS de propósito.
+  // Durante a aula, descomente UMA ETAPA POR VEZ e explique.
+  // ============================================================
 
+  // PAGINAÇÃO — ETAPA 1: estado da página e quantidade por página
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  // const produtosPorPagina = 6;
+
+  // FILTRO — ETAPA 4:
+  // filter() percorre todos os produtos e mantém somente os que
+  // atendem ao texto pesquisado e à categoria escolhida.
   const produtosFiltrados = produtos.filter((produto) => {
     const textoBusca = busca.toLowerCase();
 
@@ -89,6 +104,9 @@ function Produtos({ produtos }) {
     return correspondeBusca && correspondeCategoria;
   });
 
+  // FILTRO — ETAPA 5:
+  // [...produtosFiltrados] cria uma cópia antes de usar sort().
+  // Assim não alteramos diretamente o array original do estado.
   const produtosExibidos = [...produtosFiltrados].sort((a, b) => {
     if (ordenacao === "menor-preco") {
       return a.preco - b.preco;
@@ -101,10 +119,18 @@ function Produtos({ produtos }) {
     return 0;
   });
 
-  const indiceUltimoProduto = paginaAtual * produtosPorPagina;
-  const indicePrimeiroProduto = indiceUltimoProduto - produtosPorPagina;
-  const produtosDaPagina = produtosExibidos.slice(indicePrimeiroProduto, indiceUltimoProduto);
-  const totalPaginas = Math.ceil(produtosExibidos.length / produtosPorPagina);
+  // PAGINAÇÃO — ETAPA 2: calcular os índices e recortar o array
+  // const indiceUltimoProduto = paginaAtual * produtosPorPagina;
+  // const indicePrimeiroProduto = indiceUltimoProduto - produtosPorPagina;
+  // const produtosDaPagina = produtosExibidos.slice(
+  //   indicePrimeiroProduto,
+  //   indiceUltimoProduto
+  // );
+
+  // PAGINAÇÃO — ETAPA 4: calcular quantas páginas serão necessárias
+  // const totalPaginas = Math.ceil(
+  //   produtosExibidos.length / produtosPorPagina
+  // );
 
   return (
     <section className="section">
@@ -113,36 +139,52 @@ function Produtos({ produtos }) {
           <span className="eyebrow">CATÁLOGO</span>
           <h2>Todos os produtos</h2>
         </div>
+
+        {/* FILTRO — ETAPA 6:
+            onChange captura cada alteração no campo e atualiza "busca". */}
         <input
           className="search"
           placeholder="🔎 Buscar produto..."
           value={busca}
-          onChange={(e) => { setBusca(e.target.value); setPaginaAtual(1); }}
+          onChange={(e) => setBusca(e.target.value)}
+          // PAGINAÇÃO — ETAPA 7 (quando chegar nela, substitua a linha acima por):
+          // onChange={(e) => { setBusca(e.target.value); setPaginaAtual(1); }}
         />
       </div>
 
       <div className="filters">
+        {/* FILTRO — ETAPA 7:
+            Os botões alteram a categoria usada pelo filter(). */}
         <button
           className={categoria === "Todos" ? "active" : ""}
-          onClick={() => { setCategoria("Todos"); setPaginaAtual(1); }}
+          onClick={() => setCategoria("Todos")}
+          // ETAPA 7: depois, troque por uma função que também execute setPaginaAtual(1).
         >
           Todos
         </button>
+
         <button
           className={categoria === "Informática" ? "active" : ""}
-          onClick={() => { setCategoria("Informática"); setPaginaAtual(1); }}
+          onClick={() => setCategoria("Informática")}
+          // ETAPA 7: depois, troque por uma função que também execute setPaginaAtual(1).
         >
           Informática
         </button>
+
         <button
           className={categoria === "Eletrônicos" ? "active" : ""}
-          onClick={() => { setCategoria("Eletrônicos"); setPaginaAtual(1); }}
+          onClick={() => setCategoria("Eletrônicos")}
+          // ETAPA 7: depois, troque por uma função que também execute setPaginaAtual(1).
         >
           Eletrônicos
         </button>
+
+        {/* FILTRO — ETAPA 8:
+            O select controla a ordenação por preço. */}
         <select
           value={ordenacao}
-          onChange={(e) => { setOrdenacao(e.target.value); setPaginaAtual(1); }}
+          onChange={(e) => setOrdenacao(e.target.value)}
+          // ETAPA 7: depois, troque por uma função que também execute setPaginaAtual(1).
         >
           <option value="">Ordenar por</option>
           <option value="menor-preco">Menor preço</option>
@@ -155,18 +197,56 @@ function Produtos({ produtos }) {
       </p>
 
       <div className="product-grid">
-        {produtosDaPagina.map((produto) => (
-          <ProductCard key={produto._id || produto.id} produto={produto} />
+        {/* FILTRO — ETAPA 9:
+            A tela renderiza o novo array, e não mais "produtos" diretamente. */}
+        {produtosExibidos.map((produto) => (
+          <ProductCard
+            key={produto._id || produto.id}
+            produto={produto}
+          />
         ))}
+
+        {/* PAGINAÇÃO — ETAPA 3:
+            Quando chegar nesta etapa, comente o map acima e descomente o bloco abaixo.
+
+        {produtosDaPagina.map((produto) => (
+          <ProductCard
+            key={produto._id || produto.id}
+            produto={produto}
+          />
+        ))}
+        */}
       </div>
 
-      {produtosExibidos.length > 0 && (
-        <div className="pagination">
-          <button disabled={paginaAtual === 1} onClick={() => setPaginaAtual(paginaAtual - 1)}>← Anterior</button>
-          <span>Página {paginaAtual} de {totalPaginas}</span>
-          <button disabled={paginaAtual === totalPaginas} onClick={() => setPaginaAtual(paginaAtual + 1)}>Próxima →</button>
-        </div>
-      )}
+      {/* PAGINAÇÃO — ETAPA 5: botões Anterior e Próxima
+          Descomente este bloco quando chegar à Etapa 5.
+
+      <div className="pagination">
+        <button onClick={() => setPaginaAtual(paginaAtual - 1)}>
+          ← Anterior
+        </button>
+
+        <span>
+          Página {paginaAtual} de {totalPaginas}
+        </span>
+
+        <button onClick={() => setPaginaAtual(paginaAtual + 1)}>
+          Próxima →
+        </button>
+      </div>
+      */}
+
+      {/* PAGINAÇÃO — ETAPA 6:
+          Depois da Etapa 5 funcionar, acrescente:
+          disabled={paginaAtual === 1} no botão Anterior
+          disabled={paginaAtual === totalPaginas} no botão Próxima.
+      */}
+
+      {/* PAGINAÇÃO — ETAPA 8:
+          Na versão final, envolva a paginação com:
+          produtosExibidos.length > 0 && (...)
+          Assim os botões somem quando nenhum produto for encontrado.
+      */}
 
       {produtosExibidos.length === 0 && (
         <div className="empty-result">
@@ -209,28 +289,15 @@ function Login() {
 }
 
 function Cadastro() {
-  // ETAPA 6 — Crie os estados com useState:
-  // nome, email, senha, confirmarSenha, mensagem e carregando.
-  // TODO ETAPA 6: escreva aqui as declarações dos estados.
-
-  // ETAPA 8 — Crie a função async cadastrarUsuario(evento).
-  // Ela deve impedir o envio padrão, comparar as senhas, enviar
-  // POST /api/auth/register com fetch, tratar erros e mostrar mensagem.
-  // TODO ETAPA 8: escreva aqui a função de envio.
-
   return (
     <section className="form-page">
       <div className="form-card">
         <span className="eyebrow">NOVO CLIENTE</span>
         <h1>Criar conta</h1>
-        {/* ETAPA 7 — Substitua os campos provisórios por um formulário
-            controlado com nome, e-mail, senha e confirmação de senha.
-            Associe o onSubmit à função da ETAPA 8 e mostre as mensagens.
-            TODO ETAPA 7: implemente o JSX aqui. */}
-        <label>Nome<input placeholder="Seu nome" /></label>
-        <label>E-mail<input type="email" placeholder="voce@email.com" /></label>
-        <label>Senha<input type="password" placeholder="••••••••" /></label>
-        <button className="btn primary large" type="button" disabled>Cadastrar (aguardando aula)</button>
+        <label>Nome<input placeholder="Seu nome"/></label>
+        <label>E-mail<input type="email" placeholder="voce@email.com"/></label>
+        <label>Senha<input type="password" placeholder="••••••••"/></label>
+        <button className="btn primary large" >Cadastrar</button>
       </div>
     </section>
   );
